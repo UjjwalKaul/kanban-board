@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signIn } from 'next-auth/react';
+import axios from 'axios';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -28,8 +29,23 @@ const Login = () => {
       const result = await signIn('credentials', {
         email,
         password,
+        callbackUrl: '/dashboard',
       });
       console.log(result);
+    } else {
+      try {
+        const response = await axios.post('/api/register', {
+          name,
+          email,
+          password,
+        });
+        if (response.status === 200) {
+          setIsLogin(true);
+        }
+        console.log(response.data);
+      } catch (error) {
+        console.error('Login.tsx Error', error);
+      }
     }
     setSubmitting(false);
   }
@@ -80,6 +96,7 @@ const Login = () => {
                   ? "Don't have an account "
                   : 'Already have an account? '}
                 <button
+                  type="button"
                   onClick={() => setIsLogin(!isLogin)}
                   className="hover:underline">
                   {isLogin ? 'Sign up' : 'Login'}
