@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import Link from 'next/link';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -66,12 +65,11 @@ const Login = () => {
                 {isLogin
                   ? "Don't have an account "
                   : 'Already have an account? '}
-                <Link
+                <button
                   onClick={() => setIsLogin(!isLogin)}
-                  className="hover:underline"
-                  href="#">
+                  className="hover:underline">
                   {isLogin ? 'Sign up' : 'Login'}
-                </Link>
+                </button>
               </Label>
             </div>
           </form>
