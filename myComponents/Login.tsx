@@ -10,17 +10,28 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { signIn } from 'next-auth/react';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setSubmitting(true);
     const fd = new FormData(e.target as HTMLFormElement);
     const name = fd.get('name') || '';
     const email = fd.get('email');
     const password = fd.get('password');
     console.log({ name, email, password });
+    if (isLogin) {
+      const result = await signIn('credentials', {
+        email,
+        password,
+      });
+      console.log(result);
+    }
+    setSubmitting(false);
   }
   return (
     <div className="text-center">
@@ -42,6 +53,7 @@ const Login = () => {
                   placeholder="Name"
                   autoComplete="name"
                   name="name"
+                  required={!isLogin}
                 />
               )}
               <Input
@@ -50,6 +62,7 @@ const Login = () => {
                 placeholder="Email"
                 autoComplete="email"
                 name="email"
+                required
               />
               <Input
                 autoComplete="current-password"
@@ -57,8 +70,9 @@ const Login = () => {
                 id="password"
                 placeholder="Password"
                 name="password"
+                required
               />
-              <Button type="submit" className="text-xl">
+              <Button disabled={isSubmitting} type="submit" className="text-xl">
                 {!isLogin ? 'Sign up' : 'Login'}
               </Button>
               <Label className="text-center">

@@ -16,7 +16,7 @@ export default function Home() {
         </div>
 
         <div className="w-full md:w-1/2 flex flex-col items-center">
-          <div className="w-full flex flex-col space-y-4 text-center max-w-sm">
+          <div className="w-full flex flex-col space-y-4 text-center max-w-md">
             <Login />
           </div>
         </div>
