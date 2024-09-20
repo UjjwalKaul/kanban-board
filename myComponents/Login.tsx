@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -7,8 +8,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-
+import Link from 'next/link';
+import { Label } from '@/components/ui/label';
+import { useState } from 'react';
 const Login = () => {
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <div>
       <Card>
@@ -22,6 +26,14 @@ const Login = () => {
         <CardContent>
           <form>
             <div className="flex flex-col space-y-4">
+              {!isLogin && (
+                <Input
+                  type="text"
+                  id="name"
+                  placeholder="Name"
+                  autoComplete="name"
+                />
+              )}
               <Input
                 type="email"
                 id="email"
@@ -34,7 +46,20 @@ const Login = () => {
                 id="password"
                 placeholder="Password"
               />
-              <Button className="text-xl">Login</Button>
+              <Button className="text-xl">
+                {!isLogin ? 'Sign up' : 'Login'}
+              </Button>
+              <Label className="text-center">
+                {isLogin
+                  ? "Don't have an account "
+                  : 'Already have an account? '}
+                <Link
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="underline"
+                  href="/">
+                  {isLogin ? 'Sign up' : 'Login'}
+                </Link>
+              </Label>
             </div>
           </form>
         </CardContent>
