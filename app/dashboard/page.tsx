@@ -4,8 +4,9 @@ import { signOut } from 'next-auth/react';
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="w-screen h-screen p-4">
       Dashboard
+      <br />
       <Button
         onClick={async () => {
           try {
