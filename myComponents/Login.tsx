@@ -23,7 +23,7 @@ const Login = () => {
     console.log({ name, email, password });
   }
   return (
-    <div>
+    <div className="text-center">
       <Card>
         <CardHeader className="text-center">
           <CardTitle>Task Manager</CardTitle>
