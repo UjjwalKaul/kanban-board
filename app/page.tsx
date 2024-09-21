@@ -1,8 +1,15 @@
 import Image from 'next/image';
 import image from './assets/image.png';
 import Login from '@/myComponents/Login';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/options';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect('/dashboard');
+  }
   return (
     <div className="w-screen h-screen">
       <div className="flex flex-col md:flex-row items-center justify-center h-full">
