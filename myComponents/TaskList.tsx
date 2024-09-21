@@ -97,9 +97,9 @@ export default function TaskList() {
             <SelectValue placeholder="Filter by Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="To Do">To Do</SelectItem>
-            <SelectItem value="In Progress">In Progress</SelectItem>
-            <SelectItem value="Completed">Completed</SelectItem>
+            <SelectItem value="TO_DO">To Do</SelectItem>
+            <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+            <SelectItem value="COMPLETED">Completed</SelectItem>
           </SelectContent>
         </Select>
 
@@ -108,9 +108,9 @@ export default function TaskList() {
             <SelectValue placeholder="Filter by Priority" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Low">Low</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="High">High</SelectItem>
+            <SelectItem value="LOW">Low</SelectItem>
+            <SelectItem value="MEDIUM">Medium</SelectItem>
+            <SelectItem value="HIGH">High</SelectItem>
           </SelectContent>
         </Select>
 
