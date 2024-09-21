@@ -32,6 +32,7 @@ export async function POST(req: Request) {
       description,
       status,
       priority,
+      dueDate,
       user: {
         connect: { id: user.id },
       },
