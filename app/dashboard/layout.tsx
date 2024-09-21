@@ -9,7 +9,8 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
   return (
     <div className="flex h-screen overflow-hidden">
-      <aside className="w-1/6 h-full bg-gray-800 p-4 flex flex-col items-center justify-between">
+      <aside className="w-1/6 h-full bg-gray-800 p-4 flex flex-col items-center">
+        <h1 className="text-2xl font-bold mb-4">Task Dashboard</h1>
         <div className="flex flex-col items-center space-y-2">
           <Avatar className="w-20 h-20">
             <AvatarImage src={session?.user?.image || ' '} />

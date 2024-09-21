@@ -1,10 +1,10 @@
-const Dashboard = () => {
+const DashboardPage = () => {
   return (
     <div className="w-screen h-screen p-4">
-      Dashboard
+      DashboardPage
       <br />
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;
