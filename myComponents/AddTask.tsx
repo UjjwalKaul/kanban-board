@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,8 +21,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AddTask as AddTaskType } from '@/lib/types';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 export default function AddTask() {
+  const { data } = useSession();
   const [task, setTask] = useState<AddTaskType>({
     title: '',
     description: '',
@@ -30,13 +34,14 @@ export default function AddTask() {
     dueDate: '',
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!task.title || !task.status || !task.priority) {
       alert('Please fill out all required fields.');
       return;
     }
     // Submit the task to backend
+    axios.post('/api/add', { ...task, userMail: data?.user?.email });
     console.log('Task Submitted:', task);
     // Reset form after submission
     setTask({

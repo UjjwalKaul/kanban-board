@@ -2,42 +2,30 @@ import { prisma } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { title, description, status, priority, dueDate, userEmail } = body;
+  try {
+    const body = await req.json();
+    const { title, description, status, priority, dueDate, userMail } = body;
 
-  // Validate the required fields
-  if (
-    !title ||
-    !description ||
-    !status ||
-    !priority ||
-    !dueDate ||
-    !userEmail
-  ) {
-    return new NextResponse('Missing Add Task Values', { status: 400 });
-  }
+    // Validate required fields
+    if (!title || !status || !priority || !dueDate || !userMail) {
+      return new NextResponse('Missing Add Task Values', { status: 400 });
+    }
 
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-  });
-
-  if (!user) {
-    return new NextResponse('User not found', { status: 404 });
-  }
-
-  // Create the new task associated with the user
-  const addTask = await prisma.task.create({
-    data: {
-      title,
-      description,
-      status,
-      priority,
-      dueDate,
-      user: {
-        connect: { id: user.id },
+    // Create the task using userEmail instead of userId
+    const addTask = await prisma.task.create({
+      data: {
+        title,
+        description,
+        status,
+        priority,
+        dueDate: new Date(dueDate),
+        userEmail: userMail,
       },
-    },
-  });
+    });
 
-  return NextResponse.json({ task: addTask });
+    return NextResponse.json(addTask);
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message || 'Unknown error occurred';
+    return new NextResponse(`Error: ${errorMessage}`, { status: 500 });
+  }
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/options';
+import Provider from '@/lib/provider';
 
 export const metadata: Metadata = {
   title: 'Task-Manager',
@@ -18,7 +19,9 @@ export default async function RootLayout({
   console.log(session?.user);
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Provider session={session}>{children}</Provider>
+      </body>
     </html>
   );
 }
