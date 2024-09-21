@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -20,39 +20,25 @@ import {
 import { Pencil, Trash2 } from 'lucide-react';
 import AddTask from './AddTask';
 import { Task } from '@/lib/types';
-
-const mockTasks: Task[] = [
-  {
-    id: '1',
-    title: 'Create mockup',
-    description: 'Design UI mockup for client',
-    status: 'To Do',
-    priority: 'High',
-    dueDate: '2023-06-30',
-  },
-  {
-    id: '2',
-    title: 'Implement authentication',
-    description: 'Set up user authentication system',
-    status: 'In Progress',
-    priority: 'Medium',
-    dueDate: '2023-07-15',
-  },
-  {
-    id: '3',
-    title: 'Write documentation',
-    description: 'Document API endpoints',
-    status: 'Completed',
-    priority: 'Low',
-    dueDate: '2023-07-01',
-  },
-];
+import axios from 'axios';
 
 export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState({ status: '', priority: '' });
   const [sort, setSort] = useState<keyof Task>('dueDate');
 
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('/api/task');
+      setTasks(response.data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
+  };
   const filteredTasks = tasks
     .filter(
       (task) =>
@@ -146,7 +132,9 @@ export default function TaskList() {
                   <TableCell>{task.description}</TableCell>
                   <TableCell>{task.status}</TableCell>
                   <TableCell>{task.priority}</TableCell>
-                  <TableCell>{task.dueDate}</TableCell>
+                  <TableCell>
+                    {new Date(task.dueDate).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>
                     <div className="flex flex-col space-y-4">
                       <Button variant="outline" size="icon">

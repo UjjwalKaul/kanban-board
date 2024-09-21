@@ -15,7 +15,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           Task Dashboard
         </h1>
         <div className="flex flex-col items-center space-y-2">
-          <Link href="/">
+          <Link href="/dashboard">
             <Avatar className="w-10 h-10 md:w-20 md:h-20">
               <AvatarImage src={session?.user?.image || ' '} />
               <AvatarFallback className="md:text-3xl text-black font-bold cursor-pointer">
