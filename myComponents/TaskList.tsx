@@ -11,21 +11,15 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
 import { Pencil, Trash2 } from 'lucide-react';
-
-type Task = {
-  id: string;
-  title: string;
-  description: string;
-  status: 'To Do' | 'In Progress' | 'Completed';
-  priority: 'Low' | 'Medium' | 'High';
-  dueDate: string;
-};
+import AddTask from './AddTask';
+import { Task } from '@/lib/types';
 
 const mockTasks: Task[] = [
   {
@@ -90,34 +84,36 @@ export default function TaskList() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Task List</h2>
-        <Button>Add New Task</Button>
+    <div className="w-full h-full flex flex-col space-y-4">
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold">Task List</h1>
+        <div className="w-20">
+          <AddTask />
+        </div>
       </div>
-      <div className="flex space-x-4">
+      <div className="flex">
         <Select onValueChange={handleStatusChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="To Do">To Do</SelectItem>
             <SelectItem value="In Progress">In Progress</SelectItem>
             <SelectItem value="Completed">Completed</SelectItem>
           </SelectContent>
         </Select>
+
         <Select onValueChange={handlePriorityChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by Priority" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Priorities</SelectItem>
             <SelectItem value="Low">Low</SelectItem>
             <SelectItem value="Medium">Medium</SelectItem>
             <SelectItem value="High">High</SelectItem>
           </SelectContent>
         </Select>
+
         <Select onValueChange={(value) => setSort(value as keyof Task)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by" />
@@ -129,42 +125,47 @@ export default function TaskList() {
           </SelectContent>
         </Select>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Priority</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredTasks.map((task) => (
-            <TableRow key={task.id}>
-              <TableCell>{task.title}</TableCell>
-              <TableCell>{task.description}</TableCell>
-              <TableCell>{task.status}</TableCell>
-              <TableCell>{task.priority}</TableCell>
-              <TableCell>{task.dueDate}</TableCell>
-              <TableCell>
-                <div className="flex space-x-2">
-                  <Button variant="outline" size="icon">
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleDelete(task.id)}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </TableCell>
+      <div>
+        <Table>
+          <TableCaption>A list of your recent tasks.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Priority</TableHead>
+              <TableHead>Due Date</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredTasks.map((task) => {
+              return (
+                <TableRow key={task.id} className="text-lg">
+                  <TableCell>{task.title}</TableCell>
+                  <TableCell>{task.description}</TableCell>
+                  <TableCell>{task.status}</TableCell>
+                  <TableCell>{task.priority}</TableCell>
+                  <TableCell>{task.dueDate}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col space-y-4">
+                      <Button variant="outline" size="icon">
+                        <Pencil className="h-2 w-2" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => handleDelete(task.id)}>
+                        <Trash2 className="h-2 w-2" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
