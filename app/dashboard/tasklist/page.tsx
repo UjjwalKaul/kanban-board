@@ -1,5 +1,11 @@
+import TaskList from '@/myComponents/TaskList';
+
 const TaskListPage = () => {
-  return <div>TaskListPage</div>;
+  return (
+    <div>
+      <TaskList />
+    </div>
+  );
 };
 
 export default TaskListPage;

@@ -4,6 +4,7 @@ import { authOptions } from '../api/auth/[...nextauth]/options';
 import { Label } from '@/components/ui/label';
 import Sidebar from '@/myComponents/Sidebar';
 import Logout from '@/myComponents/Logout';
+import Link from 'next/link';
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
@@ -14,12 +15,15 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           Task Dashboard
         </h1>
         <div className="flex flex-col items-center space-y-2">
-          <Avatar className="w-10 h-10 md:w-20 md:h-20">
-            <AvatarImage src={session?.user?.image || ' '} />
-            <AvatarFallback className="md:text-3xl text-black font-bold cursor-pointer">
-              {session?.user?.name?.slice(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <Link href="/">
+            <Avatar className="w-10 h-10 md:w-20 md:h-20">
+              <AvatarImage src={session?.user?.image || ' '} />
+              <AvatarFallback className="md:text-3xl text-black font-bold cursor-pointer">
+                {session?.user?.name?.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </Link>
+
           <Label className="text-lg md:text-2xl text-white capitalize">
             {session?.user?.name}
           </Label>
