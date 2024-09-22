@@ -21,11 +21,13 @@ import { Pencil, Trash2 } from 'lucide-react';
 import AddTask from './AddTask';
 import { Task } from '@/lib/types';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState({ status: '', priority: '' });
   const [sort, setSort] = useState<keyof Task>('dueDate');
+  const session = useSession();
 
   useEffect(() => {
     fetchTasks();
@@ -51,7 +53,10 @@ export default function TaskList() {
     )
     .sort((a, b) => (a[sort] > b[sort] ? 1 : -1));
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
+    await axios.delete(
+      `/api/add?taskId=${id}&userEmail=${session.data?.user?.email}`
+    );
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
