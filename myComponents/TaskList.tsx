@@ -79,7 +79,7 @@ export default function TaskList() {
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold">Task List</h1>
         <div className="w-20">
-          <AddTask />
+          <AddTask getNew={fetchTasks} />
         </div>
       </div>
       <div className="flex">

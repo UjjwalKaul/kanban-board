@@ -23,10 +23,11 @@ import {
 import { AddTask as AddTaskType } from '@/lib/types';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
-export default function AddTask() {
-  const router = useRouter();
+interface AddTaskProps {
+  getNew: () => void;
+}
+export default function AddTask({ getNew }: AddTaskProps) {
   const { data } = useSession();
   const [task, setTask] = useState<AddTaskType>({
     title: '',
@@ -47,10 +48,9 @@ export default function AddTask() {
       ...task,
       userMail: data?.user?.email,
     });
-    if (response.status === 200) {
-      router.refresh();
-    }
-    // Reset form after submission
+    getNew();
+    console.log(response.data);
+
     setTask({
       title: '',
       description: '',

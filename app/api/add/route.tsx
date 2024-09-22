@@ -20,7 +20,6 @@ export async function POST(req: Request) {
         userEmail: userMail,
       },
     });
-
     return NextResponse.json(addTask);
   } catch (error: unknown) {
     const errorMessage = (error as Error).message || 'Unknown error occurred';
